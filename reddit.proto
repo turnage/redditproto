@@ -1,0 +1,179 @@
+// Package redditproto defines protobuffers all of the types Reddit uses in
+// their JSON api. These types are numbered t[1-6]. Each message is commented
+// according to their data type.
+
+syntax = "proto2";
+package redditproto;
+
+// Data type t1_
+message Comment {
+  extensions 100 to max;
+  optional string approved_by = 1;
+  optional string author = 2;
+  optional string author_flair_css_class = 3;
+  optional string author_flair_text = 4;
+  optional string banned_by = 5;
+  optional string body = 6;
+  optional string body_html = 7;
+  // Field 8 is reserved for "edited".
+  optional int32 gilded = 9;
+  optional string link_author = 10;
+  optional string link_url = 11;
+  optional int32 num_reports = 12;
+  optional string parent_id = 13;
+  repeated Thing replies = 14;
+  optional string subreddit = 15;
+  optional string subreddit_id = 16;
+  optional string distinguished = 17;
+
+  // Implements Created
+  optional int64 created = 18;
+  optional int64 created_utc = 19;
+
+  // Implements Votable
+  optional int32 ups = 20;
+  optional int32 downs = 21;
+  optional bool likes = 22;
+}
+
+// Data type t2_
+message Account {
+  extensions 100 to max;
+  optional int32 comment_karma = 1;
+  optional bool has_mail = 2;
+  optional bool has_mod_mail = 3;
+  optional bool has_verified_email = 4;
+  optional string id = 5;
+  optional int32 inbox_count = 6;
+  optional bool is_friend = 7;
+  optional bool is_gold = 8;
+  optional bool is_mod = 9;
+  optional int32 link_karma = 10;
+  optional string modhash = 11;
+  optional string name = 12;
+  optional bool over_18 = 13;
+  optional int32 gold_credits = 14;
+  optional double gold_expiration = 15;
+  optional bool hide_from_robots = 16;
+
+  // Implements Created
+  optional int64 created = 17;
+  optional int64 created_utc = 18;
+}
+
+// Data type t3_
+message Link {
+  extensions 100 to max;
+  optional string author = 1;
+  optional string author_flair_css_class = 2;
+  optional string author_flair_text = 3;
+  optional bool clicked = 4;
+  optional string domain = 5;
+  optional bool hidden = 6;
+  optional bool is_self = 7;
+  optional bool likes = 8;
+  optional string link_flair_css_class = 9;
+  optional string link_flair_text = 10;
+  // Field 11 is reserved for "media".
+  // Field 12 is reserved for "media_embed".
+  optional int32 num_comments = 13;
+  optional bool over_18 = 14;
+  optional string permalink = 15;
+  optional bool saved = 16;
+  optional int32 score = 17;
+  optional string selftext = 18;
+  optional string selftext_html = 19;
+  optional string subreddit = 20;
+  optional string subreddit_id = 21;
+  optional string thumbnail = 22;
+  optional string title = 23;
+  optional string url = 24;
+  // Field 25 is reserved for "edited"
+  optional string distinguished = 25;
+  optional bool stickied = 26;
+
+  // Implements Created
+  optional int64 created = 27;
+  optional int64 created_utc = 28;
+
+  // Implements Votable
+  optional int32 ups = 29;
+  optional int32 downs = 30;
+  //optional bool likes = 31;
+}
+
+// Data type t4_
+message Msg {
+  extensions 100 to max;
+  optional string author = 1;
+  optional string body = 2;
+  optional string body_html = 3;
+  optional string context = 4;
+  // Field 5 reserved for mystic "first_message".
+  optional string first_message_name = 6;
+  optional bool likes = 7;
+  optional string link_title = 8;
+  optional string name = 9;
+  optional bool new = 10;
+  optional string parent_id = 11;
+  optional string replies = 12;
+  optional string subject = 13;
+  optional string subreddit = 14;
+  optional bool was_comment = 15;
+
+  // Implements Created
+  optional int64 created = 16;
+  optional int64 created_utc = 17;
+}
+
+// Data type t5_
+message Subreddit {
+  extensions 100 to max;
+  optional int32 accounts_active = 1;
+  optional int32 comment_score = 2;
+  optional string description = 3;
+  optional string description_html = 4;
+  optional string display_name = 5;
+  optional string header_img = 6;
+  // Field 7 is reserved for "header_size".
+  optional string header_title = 7;
+  optional bool over18 = 8;
+  optional string public_description = 9;
+  optional bool public_traffic = 10;
+  optional int64 subscribers = 11;
+  optional string submission_type = 12;
+  optional string submit_link_label = 13;
+  optional string submit_text_label = 14;
+  optional string subreddit_type = 15;
+  optional string title = 16;
+  optional string url = 17;
+  optional bool user_is_banned = 18;
+  optional bool user_is_contributor = 19;
+  optional bool user_is_moderator = 20;
+  optional bool user_is_subscriber = 21;
+}
+
+message Thing {
+  optional string id = 1;
+  optional string name = 2;
+  optional string kind = 3;
+
+  oneof data {
+    Comment comment = 9;
+    Account account = 10;
+    Link link = 11;
+    Msg msg = 12;
+    Subreddit subreddit = 13;
+  }
+}
+
+message Listing {
+  optional string before = 1;
+  optional string after = 2;
+  optional string modhash = 3;
+  repeated Thing children = 4;
+}
+
+message More {
+  repeated Thing children = 1;
+}
