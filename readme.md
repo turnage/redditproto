@@ -8,13 +8,13 @@ To generate the code for the protobuffers for your language, you can most likely
 do the following:
 
     [your package manager] install protobuf-compiler
-    protoc --[your lang code]_out=. reddit.proto
+    protoc --[your lang code]_out=. *.proto
 
 Common examples:
 
-    protoc --cpp_out=. reddit.proto
-    protoc --java_out=. reddit.proto
-    protoc --python_out=. reddit.proto
+    protoc --cpp_out=. *.proto
+    protoc --java_out=. *.proto
+    protoc --python_out=. *.proto
 
 See ````protoc --help```` for further guidance.
 
