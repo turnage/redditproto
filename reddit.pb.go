@@ -1001,6 +1001,7 @@ type Thing struct {
 	Link             *Link      `protobuf:"bytes,11,opt,name=link" json:"link,omitempty"`
 	Msg              *Msg       `protobuf:"bytes,12,opt,name=msg" json:"msg,omitempty"`
 	Subreddit        *Subreddit `protobuf:"bytes,13,opt,name=subreddit" json:"subreddit,omitempty"`
+	Listing          *Listing   `protobuf:"bytes,14,opt,name=listing" json:"listing,omitempty"`
 	XXX_unrecognized []byte     `json:"-"`
 }
 
@@ -1060,6 +1061,13 @@ func (m *Thing) GetMsg() *Msg {
 func (m *Thing) GetSubreddit() *Subreddit {
 	if m != nil {
 		return m.Subreddit
+	}
+	return nil
+}
+
+func (m *Thing) GetListing() *Listing {
+	if m != nil {
+		return m.Listing
 	}
 	return nil
 }

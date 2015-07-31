@@ -164,6 +164,7 @@ message Thing {
     Link link = 11;
     Msg msg = 12;
     Subreddit subreddit = 13;
+    Listing listing = 14;
   }
 }
 
