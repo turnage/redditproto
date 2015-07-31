@@ -27,8 +27,8 @@ message Comment {
   optional string distinguished = 17;
 
   // Implements Created
-  optional int64 created = 18;
-  optional int64 created_utc = 19;
+  optional double created = 18;
+  optional double created_utc = 19;
 
   // Implements Votable
   optional int32 ups = 20;
@@ -57,8 +57,8 @@ message Account {
   optional bool hide_from_robots = 16;
 
   // Implements Created
-  optional int64 created = 17;
-  optional int64 created_utc = 18;
+  optional double created = 17;
+  optional double created_utc = 18;
 }
 
 // Data type t3_
@@ -93,8 +93,8 @@ message Link {
   optional bool stickied = 26;
 
   // Implements Created
-  optional int64 created = 27;
-  optional int64 created_utc = 28;
+  optional double created = 27;
+  optional double created_utc = 28;
 
   // Implements Votable
   optional int32 ups = 29;
@@ -122,8 +122,8 @@ message Msg {
   optional bool was_comment = 15;
 
   // Implements Created
-  optional int64 created = 16;
-  optional int64 created_utc = 17;
+  optional double created = 16;
+  optional double created_utc = 17;
 }
 
 // Data type t5_

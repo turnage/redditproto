@@ -48,8 +48,8 @@ type Comment struct {
 	SubredditId   *string  `protobuf:"bytes,16,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
 	Distinguished *string  `protobuf:"bytes,17,opt,name=distinguished" json:"distinguished,omitempty"`
 	// Implements Created
-	Created    *int64 `protobuf:"varint,18,opt,name=created" json:"created,omitempty"`
-	CreatedUtc *int64 `protobuf:"varint,19,opt,name=created_utc" json:"created_utc,omitempty"`
+	Created    *float64 `protobuf:"fixed64,18,opt,name=created" json:"created,omitempty"`
+	CreatedUtc *float64 `protobuf:"fixed64,19,opt,name=created_utc" json:"created_utc,omitempty"`
 	// Implements Votable
 	Ups              *int32                    `protobuf:"varint,20,opt,name=ups" json:"ups,omitempty"`
 	Downs            *int32                    `protobuf:"varint,21,opt,name=downs" json:"downs,omitempty"`
@@ -188,14 +188,14 @@ func (m *Comment) GetDistinguished() string {
 	return ""
 }
 
-func (m *Comment) GetCreated() int64 {
+func (m *Comment) GetCreated() float64 {
 	if m != nil && m.Created != nil {
 		return *m.Created
 	}
 	return 0
 }
 
-func (m *Comment) GetCreatedUtc() int64 {
+func (m *Comment) GetCreatedUtc() float64 {
 	if m != nil && m.CreatedUtc != nil {
 		return *m.CreatedUtc
 	}
@@ -242,8 +242,8 @@ type Account struct {
 	GoldExpiration   *float64 `protobuf:"fixed64,15,opt,name=gold_expiration" json:"gold_expiration,omitempty"`
 	HideFromRobots   *bool    `protobuf:"varint,16,opt,name=hide_from_robots" json:"hide_from_robots,omitempty"`
 	// Implements Created
-	Created          *int64                    `protobuf:"varint,17,opt,name=created" json:"created,omitempty"`
-	CreatedUtc       *int64                    `protobuf:"varint,18,opt,name=created_utc" json:"created_utc,omitempty"`
+	Created          *float64                  `protobuf:"fixed64,17,opt,name=created" json:"created,omitempty"`
+	CreatedUtc       *float64                  `protobuf:"fixed64,18,opt,name=created_utc" json:"created_utc,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
 	XXX_unrecognized []byte                    `json:"-"`
 }
@@ -378,14 +378,14 @@ func (m *Account) GetHideFromRobots() bool {
 	return false
 }
 
-func (m *Account) GetCreated() int64 {
+func (m *Account) GetCreated() float64 {
 	if m != nil && m.Created != nil {
 		return *m.Created
 	}
 	return 0
 }
 
-func (m *Account) GetCreatedUtc() int64 {
+func (m *Account) GetCreatedUtc() float64 {
 	if m != nil && m.CreatedUtc != nil {
 		return *m.CreatedUtc
 	}
@@ -422,8 +422,8 @@ type Link struct {
 	Distinguished *string `protobuf:"bytes,25,opt,name=distinguished" json:"distinguished,omitempty"`
 	Stickied      *bool   `protobuf:"varint,26,opt,name=stickied" json:"stickied,omitempty"`
 	// Implements Created
-	Created    *int64 `protobuf:"varint,27,opt,name=created" json:"created,omitempty"`
-	CreatedUtc *int64 `protobuf:"varint,28,opt,name=created_utc" json:"created_utc,omitempty"`
+	Created    *float64 `protobuf:"fixed64,27,opt,name=created" json:"created,omitempty"`
+	CreatedUtc *float64 `protobuf:"fixed64,28,opt,name=created_utc" json:"created_utc,omitempty"`
 	// Implements Votable
 	Ups              *int32                    `protobuf:"varint,29,opt,name=ups" json:"ups,omitempty"`
 	Downs            *int32                    `protobuf:"varint,30,opt,name=downs" json:"downs,omitempty"`
@@ -617,14 +617,14 @@ func (m *Link) GetStickied() bool {
 	return false
 }
 
-func (m *Link) GetCreated() int64 {
+func (m *Link) GetCreated() float64 {
 	if m != nil && m.Created != nil {
 		return *m.Created
 	}
 	return 0
 }
 
-func (m *Link) GetCreatedUtc() int64 {
+func (m *Link) GetCreatedUtc() float64 {
 	if m != nil && m.CreatedUtc != nil {
 		return *m.CreatedUtc
 	}
@@ -663,8 +663,8 @@ type Msg struct {
 	Subreddit        *string `protobuf:"bytes,14,opt,name=subreddit" json:"subreddit,omitempty"`
 	WasComment       *bool   `protobuf:"varint,15,opt,name=was_comment" json:"was_comment,omitempty"`
 	// Implements Created
-	Created          *int64                    `protobuf:"varint,16,opt,name=created" json:"created,omitempty"`
-	CreatedUtc       *int64                    `protobuf:"varint,17,opt,name=created_utc" json:"created_utc,omitempty"`
+	Created          *float64                  `protobuf:"fixed64,16,opt,name=created" json:"created,omitempty"`
+	CreatedUtc       *float64                  `protobuf:"fixed64,17,opt,name=created_utc" json:"created_utc,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
 	XXX_unrecognized []byte                    `json:"-"`
 }
@@ -785,14 +785,14 @@ func (m *Msg) GetWasComment() bool {
 	return false
 }
 
-func (m *Msg) GetCreated() int64 {
+func (m *Msg) GetCreated() float64 {
 	if m != nil && m.Created != nil {
 		return *m.Created
 	}
 	return 0
 }
 
-func (m *Msg) GetCreatedUtc() int64 {
+func (m *Msg) GetCreatedUtc() float64 {
 	if m != nil && m.CreatedUtc != nil {
 		return *m.CreatedUtc
 	}
