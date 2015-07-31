@@ -401,32 +401,32 @@ type Link struct {
 	Domain              *string `protobuf:"bytes,5,opt,name=domain" json:"domain,omitempty"`
 	Hidden              *bool   `protobuf:"varint,6,opt,name=hidden" json:"hidden,omitempty"`
 	IsSelf              *bool   `protobuf:"varint,7,opt,name=is_self" json:"is_self,omitempty"`
-	Likes               *bool   `protobuf:"varint,8,opt,name=likes" json:"likes,omitempty"`
-	LinkFlairCssClass   *string `protobuf:"bytes,9,opt,name=link_flair_css_class" json:"link_flair_css_class,omitempty"`
-	LinkFlairText       *string `protobuf:"bytes,10,opt,name=link_flair_text" json:"link_flair_text,omitempty"`
-	// Field 11 is reserved for "media".
-	// Field 12 is reserved for "media_embed".
-	NumComments  *int32  `protobuf:"varint,13,opt,name=num_comments" json:"num_comments,omitempty"`
-	Over_18      *bool   `protobuf:"varint,14,opt,name=over_18" json:"over_18,omitempty"`
-	Permalink    *string `protobuf:"bytes,15,opt,name=permalink" json:"permalink,omitempty"`
-	Saved        *bool   `protobuf:"varint,16,opt,name=saved" json:"saved,omitempty"`
-	Score        *int32  `protobuf:"varint,17,opt,name=score" json:"score,omitempty"`
-	Selftext     *string `protobuf:"bytes,18,opt,name=selftext" json:"selftext,omitempty"`
-	SelftextHtml *string `protobuf:"bytes,19,opt,name=selftext_html" json:"selftext_html,omitempty"`
-	Subreddit    *string `protobuf:"bytes,20,opt,name=subreddit" json:"subreddit,omitempty"`
-	SubredditId  *string `protobuf:"bytes,21,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
-	Thumbnail    *string `protobuf:"bytes,22,opt,name=thumbnail" json:"thumbnail,omitempty"`
-	Title        *string `protobuf:"bytes,23,opt,name=title" json:"title,omitempty"`
-	Url          *string `protobuf:"bytes,24,opt,name=url" json:"url,omitempty"`
-	// Field 25 is reserved for "edited"
-	Distinguished *string `protobuf:"bytes,25,opt,name=distinguished" json:"distinguished,omitempty"`
-	Stickied      *bool   `protobuf:"varint,26,opt,name=stickied" json:"stickied,omitempty"`
+	LinkFlairCssClass   *string `protobuf:"bytes,8,opt,name=link_flair_css_class" json:"link_flair_css_class,omitempty"`
+	LinkFlairText       *string `protobuf:"bytes,9,opt,name=link_flair_text" json:"link_flair_text,omitempty"`
+	// Field 10 is reserved for "media".
+	// Field 11 is reserved for "media_embed".
+	NumComments  *int32  `protobuf:"varint,12,opt,name=num_comments" json:"num_comments,omitempty"`
+	Over_18      *bool   `protobuf:"varint,13,opt,name=over_18" json:"over_18,omitempty"`
+	Permalink    *string `protobuf:"bytes,14,opt,name=permalink" json:"permalink,omitempty"`
+	Saved        *bool   `protobuf:"varint,15,opt,name=saved" json:"saved,omitempty"`
+	Score        *int32  `protobuf:"varint,16,opt,name=score" json:"score,omitempty"`
+	Selftext     *string `protobuf:"bytes,17,opt,name=selftext" json:"selftext,omitempty"`
+	SelftextHtml *string `protobuf:"bytes,18,opt,name=selftext_html" json:"selftext_html,omitempty"`
+	Subreddit    *string `protobuf:"bytes,19,opt,name=subreddit" json:"subreddit,omitempty"`
+	SubredditId  *string `protobuf:"bytes,20,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
+	Thumbnail    *string `protobuf:"bytes,21,opt,name=thumbnail" json:"thumbnail,omitempty"`
+	Title        *string `protobuf:"bytes,22,opt,name=title" json:"title,omitempty"`
+	Url          *string `protobuf:"bytes,23,opt,name=url" json:"url,omitempty"`
+	// Field 24 is reserved for "edited"
+	Distinguished *string `protobuf:"bytes,24,opt,name=distinguished" json:"distinguished,omitempty"`
+	Stickied      *bool   `protobuf:"varint,25,opt,name=stickied" json:"stickied,omitempty"`
 	// Implements Created
-	Created    *float64 `protobuf:"fixed64,27,opt,name=created" json:"created,omitempty"`
-	CreatedUtc *float64 `protobuf:"fixed64,28,opt,name=created_utc" json:"created_utc,omitempty"`
+	Created    *float64 `protobuf:"fixed64,26,opt,name=created" json:"created,omitempty"`
+	CreatedUtc *float64 `protobuf:"fixed64,27,opt,name=created_utc" json:"created_utc,omitempty"`
 	// Implements Votable
-	Ups              *int32                    `protobuf:"varint,29,opt,name=ups" json:"ups,omitempty"`
-	Downs            *int32                    `protobuf:"varint,30,opt,name=downs" json:"downs,omitempty"`
+	Ups              *int32                    `protobuf:"varint,28,opt,name=ups" json:"ups,omitempty"`
+	Downs            *int32                    `protobuf:"varint,29,opt,name=downs" json:"downs,omitempty"`
+	Likes            *bool                     `protobuf:"varint,30,opt,name=likes" json:"likes,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
 	XXX_unrecognized []byte                    `json:"-"`
 }
@@ -494,13 +494,6 @@ func (m *Link) GetHidden() bool {
 func (m *Link) GetIsSelf() bool {
 	if m != nil && m.IsSelf != nil {
 		return *m.IsSelf
-	}
-	return false
-}
-
-func (m *Link) GetLikes() bool {
-	if m != nil && m.Likes != nil {
-		return *m.Likes
 	}
 	return false
 }
@@ -643,6 +636,13 @@ func (m *Link) GetDowns() int32 {
 		return *m.Downs
 	}
 	return 0
+}
+
+func (m *Link) GetLikes() bool {
+	if m != nil && m.Likes != nil {
+		return *m.Likes
+	}
+	return false
 }
 
 // Data type t4_

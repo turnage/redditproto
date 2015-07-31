@@ -71,35 +71,34 @@ message Link {
   optional string domain = 5;
   optional bool hidden = 6;
   optional bool is_self = 7;
-  optional bool likes = 8;
-  optional string link_flair_css_class = 9;
-  optional string link_flair_text = 10;
-  // Field 11 is reserved for "media".
-  // Field 12 is reserved for "media_embed".
-  optional int32 num_comments = 13;
-  optional bool over_18 = 14;
-  optional string permalink = 15;
-  optional bool saved = 16;
-  optional int32 score = 17;
-  optional string selftext = 18;
-  optional string selftext_html = 19;
-  optional string subreddit = 20;
-  optional string subreddit_id = 21;
-  optional string thumbnail = 22;
-  optional string title = 23;
-  optional string url = 24;
-  // Field 25 is reserved for "edited"
-  optional string distinguished = 25;
-  optional bool stickied = 26;
+  optional string link_flair_css_class = 8;
+  optional string link_flair_text = 9;
+  // Field 10 is reserved for "media".
+  // Field 11 is reserved for "media_embed".
+  optional int32 num_comments = 12;
+  optional bool over_18 = 13;
+  optional string permalink = 14;
+  optional bool saved = 15;
+  optional int32 score = 16;
+  optional string selftext = 17;
+  optional string selftext_html = 18;
+  optional string subreddit = 19;
+  optional string subreddit_id = 20;
+  optional string thumbnail = 21;
+  optional string title = 22;
+  optional string url = 23;
+  // Field 24 is reserved for "edited"
+  optional string distinguished = 24;
+  optional bool stickied = 25;
 
   // Implements Created
-  optional double created = 27;
-  optional double created_utc = 28;
+  optional double created = 26;
+  optional double created_utc = 27;
 
   // Implements Votable
-  optional int32 ups = 29;
-  optional int32 downs = 30;
-  //optional bool likes = 31;
+  optional int32 ups = 28;
+  optional int32 downs = 29;
+  optional bool likes = 30;
 }
 
 // Data type t4_
