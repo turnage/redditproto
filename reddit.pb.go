@@ -417,7 +417,7 @@ type Link struct {
 	Thumbnail    *string `protobuf:"bytes,21,opt,name=thumbnail" json:"thumbnail,omitempty"`
 	Title        *string `protobuf:"bytes,22,opt,name=title" json:"title,omitempty"`
 	Url          *string `protobuf:"bytes,23,opt,name=url" json:"url,omitempty"`
-	// Field 24 is reserved for "edited"
+	// Field 24 is reserved for "edited".
 	Distinguished *string `protobuf:"bytes,24,opt,name=distinguished" json:"distinguished,omitempty"`
 	Stickied      *bool   `protobuf:"varint,25,opt,name=stickied" json:"stickied,omitempty"`
 	// Implements Created

@@ -1,6 +1,6 @@
 // Package redditproto defines protobuffers all of the types Reddit uses in
 // their JSON api. These types are numbered t[1-6]. Each message is commented
-// according to their data type.
+// according to its data type.
 
 syntax = "proto2";
 package redditproto;
@@ -87,7 +87,7 @@ message Link {
   optional string thumbnail = 21;
   optional string title = 22;
   optional string url = 23;
-  // Field 24 is reserved for "edited"
+  // Field 24 is reserved for "edited".
   optional string distinguished = 24;
   optional bool stickied = 25;
 
