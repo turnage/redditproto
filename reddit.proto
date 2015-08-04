@@ -34,6 +34,10 @@ message Comment {
   optional int32 ups = 20;
   optional int32 downs = 21;
   optional bool likes = 22;
+
+  // Implements Thing
+  optional string id = 23;
+  optional string name = 24;
 }
 
 // Data type t2_
@@ -43,22 +47,24 @@ message Account {
   optional bool has_mail = 2;
   optional bool has_mod_mail = 3;
   optional bool has_verified_email = 4;
-  optional string id = 5;
-  optional int32 inbox_count = 6;
-  optional bool is_friend = 7;
-  optional bool is_gold = 8;
-  optional bool is_mod = 9;
-  optional int32 link_karma = 10;
-  optional string modhash = 11;
-  optional string name = 12;
-  optional bool over_18 = 13;
-  optional int32 gold_credits = 14;
-  optional double gold_expiration = 15;
-  optional bool hide_from_robots = 16;
+  optional int32 inbox_count = 5;
+  optional bool is_friend = 6;
+  optional bool is_gold = 7;
+  optional bool is_mod = 8;
+  optional int32 link_karma = 9;
+  optional string modhash = 10;
+  optional bool over_18 = 11;
+  optional int32 gold_credits = 12;
+  optional double gold_expiration = 13;
+  optional bool hide_from_robots = 14;
 
   // Implements Created
-  optional double created = 17;
-  optional double created_utc = 18;
+  optional double created = 15;
+  optional double created_utc = 16;
+
+  // Implements Thing
+  optional string id = 17;
+  optional string name = 18;
 }
 
 // Data type t3_
@@ -99,6 +105,10 @@ message Link {
   optional int32 ups = 28;
   optional int32 downs = 29;
   optional bool likes = 30;
+
+  // Implements Thing
+  optional string id = 31;
+  optional string name = 32;
 }
 
 // Data type t4_
@@ -112,17 +122,20 @@ message Msg {
   optional string first_message_name = 6;
   optional bool likes = 7;
   optional string link_title = 8;
-  optional string name = 9;
-  optional bool new = 10;
-  optional string parent_id = 11;
-  optional string replies = 12;
-  optional string subject = 13;
-  optional string subreddit = 14;
-  optional bool was_comment = 15;
+  optional bool new = 9;
+  optional string parent_id = 10;
+  optional string replies = 11;
+  optional string subject = 12;
+  optional string subreddit = 13;
+  optional bool was_comment = 14;
 
   // Implements Created
-  optional double created = 16;
-  optional double created_utc = 17;
+  optional double created = 15;
+  optional double created_utc = 16;
+
+  // Implements Thing
+  optional string id = 17;
+  optional string name = 18;
 }
 
 // Data type t5_
@@ -150,12 +163,14 @@ message Subreddit {
   optional bool user_is_contributor = 19;
   optional bool user_is_moderator = 20;
   optional bool user_is_subscriber = 21;
+
+  // Implements Thing
+  optional string id = 22;
+  optional string name = 24;
 }
 
 message Thing {
-  optional string id = 1;
-  optional string name = 2;
-  optional string kind = 3;
+  optional string kind = 1;
 
   oneof data {
     Comment comment = 9;
