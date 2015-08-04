@@ -112,7 +112,7 @@ message Link {
 }
 
 // Data type t4_
-message Msg {
+message Message {
   extensions 100 to max;
   optional string author = 1;
   optional string body = 2;
@@ -176,7 +176,7 @@ message Thing {
     Comment comment = 9;
     Account account = 10;
     Link link = 11;
-    Msg msg = 12;
+    Message message = 12;
     Subreddit subreddit = 13;
     Listing listing = 14;
   }

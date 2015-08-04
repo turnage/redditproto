@@ -13,7 +13,7 @@ It has these top-level messages:
 	Comment
 	Account
 	Link
-	Msg
+	Message
 	Subreddit
 	Thing
 	Listing
@@ -681,7 +681,7 @@ func (m *Link) GetName() string {
 }
 
 // Data type t4_
-type Msg struct {
+type Message struct {
 	Author   *string `protobuf:"bytes,1,opt,name=author" json:"author,omitempty"`
 	Body     *string `protobuf:"bytes,2,opt,name=body" json:"body,omitempty"`
 	BodyHtml *string `protobuf:"bytes,3,opt,name=body_html" json:"body_html,omitempty"`
@@ -706,137 +706,137 @@ type Msg struct {
 	XXX_unrecognized []byte                    `json:"-"`
 }
 
-func (m *Msg) Reset()         { *m = Msg{} }
-func (m *Msg) String() string { return proto.CompactTextString(m) }
-func (*Msg) ProtoMessage()    {}
+func (m *Message) Reset()         { *m = Message{} }
+func (m *Message) String() string { return proto.CompactTextString(m) }
+func (*Message) ProtoMessage()    {}
 
-var extRange_Msg = []proto.ExtensionRange{
+var extRange_Message = []proto.ExtensionRange{
 	{100, 536870911},
 }
 
-func (*Msg) ExtensionRangeArray() []proto.ExtensionRange {
-	return extRange_Msg
+func (*Message) ExtensionRangeArray() []proto.ExtensionRange {
+	return extRange_Message
 }
-func (m *Msg) ExtensionMap() map[int32]proto.Extension {
+func (m *Message) ExtensionMap() map[int32]proto.Extension {
 	if m.XXX_extensions == nil {
 		m.XXX_extensions = make(map[int32]proto.Extension)
 	}
 	return m.XXX_extensions
 }
 
-func (m *Msg) GetAuthor() string {
+func (m *Message) GetAuthor() string {
 	if m != nil && m.Author != nil {
 		return *m.Author
 	}
 	return ""
 }
 
-func (m *Msg) GetBody() string {
+func (m *Message) GetBody() string {
 	if m != nil && m.Body != nil {
 		return *m.Body
 	}
 	return ""
 }
 
-func (m *Msg) GetBodyHtml() string {
+func (m *Message) GetBodyHtml() string {
 	if m != nil && m.BodyHtml != nil {
 		return *m.BodyHtml
 	}
 	return ""
 }
 
-func (m *Msg) GetContext() string {
+func (m *Message) GetContext() string {
 	if m != nil && m.Context != nil {
 		return *m.Context
 	}
 	return ""
 }
 
-func (m *Msg) GetFirstMessageName() string {
+func (m *Message) GetFirstMessageName() string {
 	if m != nil && m.FirstMessageName != nil {
 		return *m.FirstMessageName
 	}
 	return ""
 }
 
-func (m *Msg) GetLikes() bool {
+func (m *Message) GetLikes() bool {
 	if m != nil && m.Likes != nil {
 		return *m.Likes
 	}
 	return false
 }
 
-func (m *Msg) GetLinkTitle() string {
+func (m *Message) GetLinkTitle() string {
 	if m != nil && m.LinkTitle != nil {
 		return *m.LinkTitle
 	}
 	return ""
 }
 
-func (m *Msg) GetNew() bool {
+func (m *Message) GetNew() bool {
 	if m != nil && m.New != nil {
 		return *m.New
 	}
 	return false
 }
 
-func (m *Msg) GetParentId() string {
+func (m *Message) GetParentId() string {
 	if m != nil && m.ParentId != nil {
 		return *m.ParentId
 	}
 	return ""
 }
 
-func (m *Msg) GetReplies() string {
+func (m *Message) GetReplies() string {
 	if m != nil && m.Replies != nil {
 		return *m.Replies
 	}
 	return ""
 }
 
-func (m *Msg) GetSubject() string {
+func (m *Message) GetSubject() string {
 	if m != nil && m.Subject != nil {
 		return *m.Subject
 	}
 	return ""
 }
 
-func (m *Msg) GetSubreddit() string {
+func (m *Message) GetSubreddit() string {
 	if m != nil && m.Subreddit != nil {
 		return *m.Subreddit
 	}
 	return ""
 }
 
-func (m *Msg) GetWasComment() bool {
+func (m *Message) GetWasComment() bool {
 	if m != nil && m.WasComment != nil {
 		return *m.WasComment
 	}
 	return false
 }
 
-func (m *Msg) GetCreated() float64 {
+func (m *Message) GetCreated() float64 {
 	if m != nil && m.Created != nil {
 		return *m.Created
 	}
 	return 0
 }
 
-func (m *Msg) GetCreatedUtc() float64 {
+func (m *Message) GetCreatedUtc() float64 {
 	if m != nil && m.CreatedUtc != nil {
 		return *m.CreatedUtc
 	}
 	return 0
 }
 
-func (m *Msg) GetId() string {
+func (m *Message) GetId() string {
 	if m != nil && m.Id != nil {
 		return *m.Id
 	}
 	return ""
 }
 
-func (m *Msg) GetName() string {
+func (m *Message) GetName() string {
 	if m != nil && m.Name != nil {
 		return *m.Name
 	}
@@ -1058,7 +1058,7 @@ type Thing struct {
 	Comment          *Comment   `protobuf:"bytes,9,opt,name=comment" json:"comment,omitempty"`
 	Account          *Account   `protobuf:"bytes,10,opt,name=account" json:"account,omitempty"`
 	Link             *Link      `protobuf:"bytes,11,opt,name=link" json:"link,omitempty"`
-	Msg              *Msg       `protobuf:"bytes,12,opt,name=msg" json:"msg,omitempty"`
+	Message          *Message   `protobuf:"bytes,12,opt,name=message" json:"message,omitempty"`
 	Subreddit        *Subreddit `protobuf:"bytes,13,opt,name=subreddit" json:"subreddit,omitempty"`
 	Listing          *Listing   `protobuf:"bytes,14,opt,name=listing" json:"listing,omitempty"`
 	XXX_unrecognized []byte     `json:"-"`
@@ -1096,9 +1096,9 @@ func (m *Thing) GetLink() *Link {
 	return nil
 }
 
-func (m *Thing) GetMsg() *Msg {
+func (m *Thing) GetMessage() *Message {
 	if m != nil {
-		return m.Msg
+		return m.Message
 	}
 	return nil
 }
