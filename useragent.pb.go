@@ -12,13 +12,13 @@ var _ = proto.Marshal
 var _ = math.Inf
 
 // UserAgent describes a non-user entity controlling a reddit account. This
-// information is REQUIRED according the reddit api rules.
+// information is required to request authorization from a reddit user, and
+// refresh it.
 type UserAgent struct {
 	UserAgent        *string `protobuf:"bytes,1,req,name=user_agent" json:"user_agent,omitempty"`
 	ClientId         *string `protobuf:"bytes,2,req,name=client_id" json:"client_id,omitempty"`
 	ClientSecret     *string `protobuf:"bytes,3,req,name=client_secret" json:"client_secret,omitempty"`
-	Username         *string `protobuf:"bytes,4,req,name=username" json:"username,omitempty"`
-	Password         *string `protobuf:"bytes,5,req,name=password" json:"password,omitempty"`
+	RefreshToken     *string `protobuf:"bytes,4,opt,name=refresh_token" json:"refresh_token,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -47,16 +47,9 @@ func (m *UserAgent) GetClientSecret() string {
 	return ""
 }
 
-func (m *UserAgent) GetUsername() string {
-	if m != nil && m.Username != nil {
-		return *m.Username
-	}
-	return ""
-}
-
-func (m *UserAgent) GetPassword() string {
-	if m != nil && m.Password != nil {
-		return *m.Password
+func (m *UserAgent) GetRefreshToken() string {
+	if m != nil && m.RefreshToken != nil {
+		return *m.RefreshToken
 	}
 	return ""
 }
