@@ -171,6 +171,18 @@ message Message {
   optional string name = 18;
 }
 
+message MessageChildren {
+        optional Message data = 1;
+}
+
+message MessageData {
+        repeated MessageChildren children = 1;
+}
+
+message MessageListing {
+        optional MessageData data = 1;
+}
+
 // Data type t5_
 message Subreddit {
   extensions 100 to max;

@@ -20,6 +20,9 @@ It has these top-level messages:
 	LinkData
 	LinkListing
 	Message
+	MessageChildren
+	MessageData
+	MessageListing
 	Subreddit
 	Thing
 	Listing
@@ -964,6 +967,54 @@ func (m *Message) GetName() string {
 		return *m.Name
 	}
 	return ""
+}
+
+type MessageChildren struct {
+	Data             *Message `protobuf:"bytes,1,opt,name=data" json:"data,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
+}
+
+func (m *MessageChildren) Reset()         { *m = MessageChildren{} }
+func (m *MessageChildren) String() string { return proto.CompactTextString(m) }
+func (*MessageChildren) ProtoMessage()    {}
+
+func (m *MessageChildren) GetData() *Message {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type MessageData struct {
+	Children         []*MessageChildren `protobuf:"bytes,1,rep,name=children" json:"children,omitempty"`
+	XXX_unrecognized []byte             `json:"-"`
+}
+
+func (m *MessageData) Reset()         { *m = MessageData{} }
+func (m *MessageData) String() string { return proto.CompactTextString(m) }
+func (*MessageData) ProtoMessage()    {}
+
+func (m *MessageData) GetChildren() []*MessageChildren {
+	if m != nil {
+		return m.Children
+	}
+	return nil
+}
+
+type MessageListing struct {
+	Data             *MessageData `protobuf:"bytes,1,opt,name=data" json:"data,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *MessageListing) Reset()         { *m = MessageListing{} }
+func (m *MessageListing) String() string { return proto.CompactTextString(m) }
+func (*MessageListing) ProtoMessage()    {}
+
+func (m *MessageListing) GetData() *MessageData {
+	if m != nil {
+		return m.Data
+	}
+	return nil
 }
 
 // Data type t5_
