@@ -21,7 +21,9 @@ message Comment {
   optional string link_url = 11;
   optional int32 num_reports = 12;
   optional string parent_id = 13;
-  repeated Thing replies = 14;
+  // Reddit provides this as a Comment listing; filling this field needs to be
+  // done manually. See field 25.
+  repeated Comment reply_tree = 14;
   optional string subreddit = 15;
   optional string subreddit_id = 16;
   optional string distinguished = 17;
@@ -38,6 +40,22 @@ message Comment {
   // Implements Thing
   optional string id = 23;
   optional string name = 24;
+
+  // Provided to make parsing comment trees easier; extract from each
+  // CommentChildren's "data" field.
+  optional CommentListing replies = 25;
+}
+
+message CommentChildren {
+        optional Comment data = 1;
+}
+
+message CommentData {
+        repeated CommentChildren children = 1;
+}
+
+message CommentListing {
+        optional CommentData data = 1;
 }
 
 // Data type t2_
@@ -109,6 +127,21 @@ message Link {
   // Implements Thing
   optional string id = 31;
   optional string name = 32;
+
+  // Comment tree (not provided by Reddit).
+  repeated Comment comments = 33;
+}
+
+message LinkChildren {
+        optional Link data = 1;
+}
+
+message LinkData {
+        repeated LinkChildren children = 1;
+}
+
+message LinkListing {
+        optional LinkData data = 1;
 }
 
 // Data type t4_

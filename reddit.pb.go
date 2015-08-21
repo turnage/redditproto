@@ -7,13 +7,18 @@ Package redditproto is a generated protocol buffer package.
 
 It is generated from these files:
 	reddit.proto
-	responses.proto
 	useragent.proto
 
 It has these top-level messages:
 	Comment
+	CommentChildren
+	CommentData
+	CommentListing
 	Account
 	Link
+	LinkChildren
+	LinkData
+	LinkListing
 	Message
 	Subreddit
 	Thing
@@ -39,15 +44,17 @@ type Comment struct {
 	Body                *string `protobuf:"bytes,6,opt,name=body" json:"body,omitempty"`
 	BodyHtml            *string `protobuf:"bytes,7,opt,name=body_html" json:"body_html,omitempty"`
 	// Field 8 is reserved for "edited".
-	Gilded        *int32   `protobuf:"varint,9,opt,name=gilded" json:"gilded,omitempty"`
-	LinkAuthor    *string  `protobuf:"bytes,10,opt,name=link_author" json:"link_author,omitempty"`
-	LinkUrl       *string  `protobuf:"bytes,11,opt,name=link_url" json:"link_url,omitempty"`
-	NumReports    *int32   `protobuf:"varint,12,opt,name=num_reports" json:"num_reports,omitempty"`
-	ParentId      *string  `protobuf:"bytes,13,opt,name=parent_id" json:"parent_id,omitempty"`
-	Replies       []*Thing `protobuf:"bytes,14,rep,name=replies" json:"replies,omitempty"`
-	Subreddit     *string  `protobuf:"bytes,15,opt,name=subreddit" json:"subreddit,omitempty"`
-	SubredditId   *string  `protobuf:"bytes,16,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
-	Distinguished *string  `protobuf:"bytes,17,opt,name=distinguished" json:"distinguished,omitempty"`
+	Gilded     *int32  `protobuf:"varint,9,opt,name=gilded" json:"gilded,omitempty"`
+	LinkAuthor *string `protobuf:"bytes,10,opt,name=link_author" json:"link_author,omitempty"`
+	LinkUrl    *string `protobuf:"bytes,11,opt,name=link_url" json:"link_url,omitempty"`
+	NumReports *int32  `protobuf:"varint,12,opt,name=num_reports" json:"num_reports,omitempty"`
+	ParentId   *string `protobuf:"bytes,13,opt,name=parent_id" json:"parent_id,omitempty"`
+	// Reddit provides this as a Comment listing; filling this field needs to be
+	// done manually. See field 25.
+	ReplyTree     []*Comment `protobuf:"bytes,14,rep,name=reply_tree" json:"reply_tree,omitempty"`
+	Subreddit     *string    `protobuf:"bytes,15,opt,name=subreddit" json:"subreddit,omitempty"`
+	SubredditId   *string    `protobuf:"bytes,16,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
+	Distinguished *string    `protobuf:"bytes,17,opt,name=distinguished" json:"distinguished,omitempty"`
 	// Implements Created
 	Created    *float64 `protobuf:"fixed64,18,opt,name=created" json:"created,omitempty"`
 	CreatedUtc *float64 `protobuf:"fixed64,19,opt,name=created_utc" json:"created_utc,omitempty"`
@@ -56,8 +63,11 @@ type Comment struct {
 	Downs *int32 `protobuf:"varint,21,opt,name=downs" json:"downs,omitempty"`
 	Likes *bool  `protobuf:"varint,22,opt,name=likes" json:"likes,omitempty"`
 	// Implements Thing
-	Id               *string                   `protobuf:"bytes,23,opt,name=id" json:"id,omitempty"`
-	Name             *string                   `protobuf:"bytes,24,opt,name=name" json:"name,omitempty"`
+	Id   *string `protobuf:"bytes,23,opt,name=id" json:"id,omitempty"`
+	Name *string `protobuf:"bytes,24,opt,name=name" json:"name,omitempty"`
+	// Provided to make parsing comment trees easier; extract from each
+	// CommentChildren's "data" field.
+	Replies          *CommentListing           `protobuf:"bytes,25,opt,name=replies" json:"replies,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
 	XXX_unrecognized []byte                    `json:"-"`
 }
@@ -164,9 +174,9 @@ func (m *Comment) GetParentId() string {
 	return ""
 }
 
-func (m *Comment) GetReplies() []*Thing {
+func (m *Comment) GetReplyTree() []*Comment {
 	if m != nil {
-		return m.Replies
+		return m.ReplyTree
 	}
 	return nil
 }
@@ -239,6 +249,61 @@ func (m *Comment) GetName() string {
 		return *m.Name
 	}
 	return ""
+}
+
+func (m *Comment) GetReplies() *CommentListing {
+	if m != nil {
+		return m.Replies
+	}
+	return nil
+}
+
+type CommentChildren struct {
+	Data             *Comment `protobuf:"bytes,1,opt,name=data" json:"data,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
+}
+
+func (m *CommentChildren) Reset()         { *m = CommentChildren{} }
+func (m *CommentChildren) String() string { return proto.CompactTextString(m) }
+func (*CommentChildren) ProtoMessage()    {}
+
+func (m *CommentChildren) GetData() *Comment {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type CommentData struct {
+	Children         []*CommentChildren `protobuf:"bytes,1,rep,name=children" json:"children,omitempty"`
+	XXX_unrecognized []byte             `json:"-"`
+}
+
+func (m *CommentData) Reset()         { *m = CommentData{} }
+func (m *CommentData) String() string { return proto.CompactTextString(m) }
+func (*CommentData) ProtoMessage()    {}
+
+func (m *CommentData) GetChildren() []*CommentChildren {
+	if m != nil {
+		return m.Children
+	}
+	return nil
+}
+
+type CommentListing struct {
+	Data             *CommentData `protobuf:"bytes,1,opt,name=data" json:"data,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *CommentListing) Reset()         { *m = CommentListing{} }
+func (m *CommentListing) String() string { return proto.CompactTextString(m) }
+func (*CommentListing) ProtoMessage()    {}
+
+func (m *CommentListing) GetData() *CommentData {
+	if m != nil {
+		return m.Data
+	}
+	return nil
 }
 
 // Data type t2_
@@ -447,8 +512,10 @@ type Link struct {
 	Downs *int32 `protobuf:"varint,29,opt,name=downs" json:"downs,omitempty"`
 	Likes *bool  `protobuf:"varint,30,opt,name=likes" json:"likes,omitempty"`
 	// Implements Thing
-	Id               *string                   `protobuf:"bytes,31,opt,name=id" json:"id,omitempty"`
-	Name             *string                   `protobuf:"bytes,32,opt,name=name" json:"name,omitempty"`
+	Id   *string `protobuf:"bytes,31,opt,name=id" json:"id,omitempty"`
+	Name *string `protobuf:"bytes,32,opt,name=name" json:"name,omitempty"`
+	// Comment tree (not provided by Reddit).
+	Comments         []*Comment                `protobuf:"bytes,33,rep,name=comments" json:"comments,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
 	XXX_unrecognized []byte                    `json:"-"`
 }
@@ -679,6 +746,61 @@ func (m *Link) GetName() string {
 		return *m.Name
 	}
 	return ""
+}
+
+func (m *Link) GetComments() []*Comment {
+	if m != nil {
+		return m.Comments
+	}
+	return nil
+}
+
+type LinkChildren struct {
+	Data             *Link  `protobuf:"bytes,1,opt,name=data" json:"data,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *LinkChildren) Reset()         { *m = LinkChildren{} }
+func (m *LinkChildren) String() string { return proto.CompactTextString(m) }
+func (*LinkChildren) ProtoMessage()    {}
+
+func (m *LinkChildren) GetData() *Link {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type LinkData struct {
+	Children         []*LinkChildren `protobuf:"bytes,1,rep,name=children" json:"children,omitempty"`
+	XXX_unrecognized []byte          `json:"-"`
+}
+
+func (m *LinkData) Reset()         { *m = LinkData{} }
+func (m *LinkData) String() string { return proto.CompactTextString(m) }
+func (*LinkData) ProtoMessage()    {}
+
+func (m *LinkData) GetChildren() []*LinkChildren {
+	if m != nil {
+		return m.Children
+	}
+	return nil
+}
+
+type LinkListing struct {
+	Data             *LinkData `protobuf:"bytes,1,opt,name=data" json:"data,omitempty"`
+	XXX_unrecognized []byte    `json:"-"`
+}
+
+func (m *LinkListing) Reset()         { *m = LinkListing{} }
+func (m *LinkListing) String() string { return proto.CompactTextString(m) }
+func (*LinkListing) ProtoMessage()    {}
+
+func (m *LinkListing) GetData() *LinkData {
+	if m != nil {
+		return m.Data
+	}
+	return nil
 }
 
 // Data type t4_
