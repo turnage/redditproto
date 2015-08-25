@@ -1,7 +1,7 @@
 # redditproto
 
-This repo includes the protobuffer definitions for Reddit's JSON api types. For
-more information about what these message represent, see
+Protocol Buffer definitions for Reddit's JSON api types. For
+more information about what these messages represent, see
 [Reddit's docs](https://github.com/reddit/reddit/wiki/JSON).
 
 To generate the code for the protobuffers for your language, you can most likely
