@@ -5,14 +5,14 @@
 package redditproto
 
 import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
+var _ = fmt.Errorf
 var _ = math.Inf
 
-// UserAgent describes a non-user entity controlling a reddit account. This
-// information is REQUIRED according the reddit api rules.
 type UserAgent struct {
 	UserAgent        *string `protobuf:"bytes,1,req,name=user_agent" json:"user_agent,omitempty"`
 	ClientId         *string `protobuf:"bytes,2,req,name=client_id" json:"client_id,omitempty"`
