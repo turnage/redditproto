@@ -126,9 +126,9 @@ func ParseThread(raw json.RawMessage) (*Link, error) {
 	return link, nil
 }
 
-// ParseUserPage parses a JSON message expected to be a user landing page (in
-// the form /u/{username}).
-func ParseUserPage(raw json.RawMessage) ([]*Link, []*Comment, error) {
+// ParseComboListing parses a JSON message expected to be a listing with a mix
+// of comments and posts (e.g. a user landing page).
+func ParseComboListing(raw json.RawMessage) ([]*Link, []*Comment, error) {
 	thing, err := handleThing(raw)
 	if err != nil {
 		return nil, nil, err

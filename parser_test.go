@@ -183,8 +183,8 @@ func TestParseThread(t *testing.T) {
 	}
 }
 
-func TestParseUserPage(t *testing.T) {
-	links, comments, err := ParseUserPage([]byte(
+func TestParseComboListing(t *testing.T) {
+	links, comments, err := ParseComboListing([]byte(
 		`{
 			"kind": "Listing",
 			"data": {
