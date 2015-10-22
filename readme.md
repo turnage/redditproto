@@ -18,4 +18,16 @@ Common examples:
 
 See ````protoc --help```` for further guidance.
 
-The golang generated code is included to make this package go gettable.
+# Update Policy
+
+No breaking changes will be made to redditproto messages as of version 1.0. Any
+message changes will be noted here in the readme.
+
+* 0.9 -> August 25th, 2015
+* 1.0 -> October 21st, 2015
+
+# Gophers
+
+The golang generated code is included to make this package go gettable. There
+are also some utility functions included for parsing Reddit's JSON responses. If
+you're writing a golang utility for Reddit I'd be happy to add things for you!
