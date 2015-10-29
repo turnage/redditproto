@@ -36,43 +36,6 @@ func ParseComment(raw json.RawMessage) (*Comment, error) {
 	return comment, nil
 }
 
-// ParseLinkListing parses a JSON message expected to be a listing of Links
-// (Link is the Reddit type for what may also be called posts or submissions).
-// Links do not have a comments field except when fetched from their own
-// comments page; the Links returned from this function have no comments
-// included.
-func ParseLinkListing(raw json.RawMessage) ([]*Link, error) {
-	thing, err := handleThing(raw)
-	if err != nil {
-		return nil, err
-	}
-
-	buffer, ok := thing.(*listingBuffer)
-	if !ok {
-		return nil, fmt.Errorf("JSON message was not a listing")
-	}
-
-	return buffer.links, nil
-}
-
-// ParseMessageListing parses a JSON message expected to be a listing of
-// Messages (e.g. an inbox JSON digest). Reddit will provide comments as
-// Messages if viewed from the inbox--use GetWasComment() to identify the
-// original type.
-func ParseMessageListing(raw json.RawMessage) ([]*Message, error) {
-	thing, err := handleThing(raw)
-	if err != nil {
-		return nil, err
-	}
-
-	buffer, ok := thing.(*listingBuffer)
-	if !ok {
-		return nil, fmt.Errorf("JSON message was not a listing")
-	}
-
-	return buffer.messages, nil
-}
-
 // ParseThread parses a JSON message expected to represent a Link comment page.
 func ParseThread(raw json.RawMessage) (*Link, error) {
 	// The JSON message should be a top level array, holding the link in the
@@ -126,20 +89,25 @@ func ParseThread(raw json.RawMessage) (*Link, error) {
 	return link, nil
 }
 
-// ParseComboListing parses a JSON message expected to be a listing with a mix
-// of comments and posts (e.g. a user landing page).
-func ParseComboListing(raw json.RawMessage) ([]*Link, []*Comment, error) {
+// ParseListing parses a JSON message expected to be a listing with any mix of
+// Links, Comments, or Messages.
+func ParseListing(raw json.RawMessage) (
+	[]*Link,
+	[]*Comment,
+	[]*Message,
+	error,
+) {
 	thing, err := handleThing(raw)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
 	buffer, ok := thing.(*listingBuffer)
 	if !ok {
-		return nil, nil, fmt.Errorf("JSON message was nonlisting")
+		return nil, nil, nil, fmt.Errorf("JSON message was nonlisting")
 	}
 
-	return buffer.links, buffer.comments, nil
+	return buffer.links, buffer.comments, buffer.messages, nil
 }
 
 // handleThing unmarshals Things and parses them.

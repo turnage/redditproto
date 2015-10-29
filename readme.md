@@ -23,8 +23,9 @@ See ````protoc --help```` for further guidance.
 No breaking changes will be made to redditproto messages as of version 1.0. Any
 message changes will be noted here in the readme.
 
-* 0.9 -> August 25th, 2015
-* 1.0 -> October 21st, 2015
+* 0.9.0 -> August 25th, 2015
+* 1.0.0 -> October 21st, 2015
+* 2.0.0 -> Octover 29th, 2015 (No message changes; improve Go utilities).
 
 # Gophers
 
