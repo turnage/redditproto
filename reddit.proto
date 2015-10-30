@@ -42,6 +42,11 @@ message Comment {
   // Implements Thing
   optional string id = 23;
   optional string name = 24;
+
+  // Message-Comment hybrid fields; these are present when the comment is
+  // actually a Message in the inbox, but Reddit still labels the object "t1"
+  // (Comment) because that is its original type.
+  optional string subject = 25;
 }
 
 // Data type t2_

@@ -28,32 +28,41 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// Data type t1_
 type Comment struct {
-	ApprovedBy          *string                   `protobuf:"bytes,1,opt,name=approved_by" json:"approved_by,omitempty"`
-	Author              *string                   `protobuf:"bytes,2,opt,name=author" json:"author,omitempty"`
-	AuthorFlairCssClass *string                   `protobuf:"bytes,3,opt,name=author_flair_css_class" json:"author_flair_css_class,omitempty"`
-	AuthorFlairText     *string                   `protobuf:"bytes,4,opt,name=author_flair_text" json:"author_flair_text,omitempty"`
-	BannedBy            *string                   `protobuf:"bytes,5,opt,name=banned_by" json:"banned_by,omitempty"`
-	Body                *string                   `protobuf:"bytes,6,opt,name=body" json:"body,omitempty"`
-	BodyHtml            *string                   `protobuf:"bytes,7,opt,name=body_html" json:"body_html,omitempty"`
-	Gilded              *int32                    `protobuf:"varint,9,opt,name=gilded" json:"gilded,omitempty"`
-	LinkAuthor          *string                   `protobuf:"bytes,10,opt,name=link_author" json:"link_author,omitempty"`
-	LinkUrl             *string                   `protobuf:"bytes,11,opt,name=link_url" json:"link_url,omitempty"`
-	NumReports          *int32                    `protobuf:"varint,12,opt,name=num_reports" json:"num_reports,omitempty"`
-	ParentId            *string                   `protobuf:"bytes,13,opt,name=parent_id" json:"parent_id,omitempty"`
-	Replies             []*Comment                `protobuf:"bytes,14,rep,name=replies" json:"replies,omitempty"`
-	Subreddit           *string                   `protobuf:"bytes,15,opt,name=subreddit" json:"subreddit,omitempty"`
-	SubredditId         *string                   `protobuf:"bytes,16,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
-	Distinguished       *string                   `protobuf:"bytes,17,opt,name=distinguished" json:"distinguished,omitempty"`
-	Created             *float64                  `protobuf:"fixed64,18,opt,name=created" json:"created,omitempty"`
-	CreatedUtc          *float64                  `protobuf:"fixed64,19,opt,name=created_utc" json:"created_utc,omitempty"`
-	Ups                 *int32                    `protobuf:"varint,20,opt,name=ups" json:"ups,omitempty"`
-	Downs               *int32                    `protobuf:"varint,21,opt,name=downs" json:"downs,omitempty"`
-	Likes               *bool                     `protobuf:"varint,22,opt,name=likes" json:"likes,omitempty"`
-	Id                  *string                   `protobuf:"bytes,23,opt,name=id" json:"id,omitempty"`
-	Name                *string                   `protobuf:"bytes,24,opt,name=name" json:"name,omitempty"`
-	XXX_extensions      map[int32]proto.Extension `json:"-"`
-	XXX_unrecognized    []byte                    `json:"-"`
+	ApprovedBy          *string `protobuf:"bytes,1,opt,name=approved_by" json:"approved_by,omitempty"`
+	Author              *string `protobuf:"bytes,2,opt,name=author" json:"author,omitempty"`
+	AuthorFlairCssClass *string `protobuf:"bytes,3,opt,name=author_flair_css_class" json:"author_flair_css_class,omitempty"`
+	AuthorFlairText     *string `protobuf:"bytes,4,opt,name=author_flair_text" json:"author_flair_text,omitempty"`
+	BannedBy            *string `protobuf:"bytes,5,opt,name=banned_by" json:"banned_by,omitempty"`
+	Body                *string `protobuf:"bytes,6,opt,name=body" json:"body,omitempty"`
+	BodyHtml            *string `protobuf:"bytes,7,opt,name=body_html" json:"body_html,omitempty"`
+	// Field 8 is reserved for "edited".
+	Gilded        *int32     `protobuf:"varint,9,opt,name=gilded" json:"gilded,omitempty"`
+	LinkAuthor    *string    `protobuf:"bytes,10,opt,name=link_author" json:"link_author,omitempty"`
+	LinkUrl       *string    `protobuf:"bytes,11,opt,name=link_url" json:"link_url,omitempty"`
+	NumReports    *int32     `protobuf:"varint,12,opt,name=num_reports" json:"num_reports,omitempty"`
+	ParentId      *string    `protobuf:"bytes,13,opt,name=parent_id" json:"parent_id,omitempty"`
+	Replies       []*Comment `protobuf:"bytes,14,rep,name=replies" json:"replies,omitempty"`
+	Subreddit     *string    `protobuf:"bytes,15,opt,name=subreddit" json:"subreddit,omitempty"`
+	SubredditId   *string    `protobuf:"bytes,16,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
+	Distinguished *string    `protobuf:"bytes,17,opt,name=distinguished" json:"distinguished,omitempty"`
+	// Implements Created
+	Created    *float64 `protobuf:"fixed64,18,opt,name=created" json:"created,omitempty"`
+	CreatedUtc *float64 `protobuf:"fixed64,19,opt,name=created_utc" json:"created_utc,omitempty"`
+	// Implements Votable
+	Ups   *int32 `protobuf:"varint,20,opt,name=ups" json:"ups,omitempty"`
+	Downs *int32 `protobuf:"varint,21,opt,name=downs" json:"downs,omitempty"`
+	Likes *bool  `protobuf:"varint,22,opt,name=likes" json:"likes,omitempty"`
+	// Implements Thing
+	Id   *string `protobuf:"bytes,23,opt,name=id" json:"id,omitempty"`
+	Name *string `protobuf:"bytes,24,opt,name=name" json:"name,omitempty"`
+	// Message-Comment hybrid fields; these are present when the comment is
+	// actually a Message in the inbox, but Reddit still labels the object "t1"
+	// (Comment) because that is its original type.
+	Subject          *string                   `protobuf:"bytes,25,opt,name=subject" json:"subject,omitempty"`
+	XXX_extensions   map[int32]proto.Extension `json:"-"`
+	XXX_unrecognized []byte                    `json:"-"`
 }
 
 func (m *Comment) Reset()         { *m = Comment{} }
@@ -235,23 +244,33 @@ func (m *Comment) GetName() string {
 	return ""
 }
 
+func (m *Comment) GetSubject() string {
+	if m != nil && m.Subject != nil {
+		return *m.Subject
+	}
+	return ""
+}
+
+// Data type t2_
 type Account struct {
-	CommentKarma     *int32                    `protobuf:"varint,1,opt,name=comment_karma" json:"comment_karma,omitempty"`
-	HasMail          *bool                     `protobuf:"varint,2,opt,name=has_mail" json:"has_mail,omitempty"`
-	HasModMail       *bool                     `protobuf:"varint,3,opt,name=has_mod_mail" json:"has_mod_mail,omitempty"`
-	HasVerifiedEmail *bool                     `protobuf:"varint,4,opt,name=has_verified_email" json:"has_verified_email,omitempty"`
-	InboxCount       *int32                    `protobuf:"varint,5,opt,name=inbox_count" json:"inbox_count,omitempty"`
-	IsFriend         *bool                     `protobuf:"varint,6,opt,name=is_friend" json:"is_friend,omitempty"`
-	IsGold           *bool                     `protobuf:"varint,7,opt,name=is_gold" json:"is_gold,omitempty"`
-	IsMod            *bool                     `protobuf:"varint,8,opt,name=is_mod" json:"is_mod,omitempty"`
-	LinkKarma        *int32                    `protobuf:"varint,9,opt,name=link_karma" json:"link_karma,omitempty"`
-	Modhash          *string                   `protobuf:"bytes,10,opt,name=modhash" json:"modhash,omitempty"`
-	Over_18          *bool                     `protobuf:"varint,11,opt,name=over_18" json:"over_18,omitempty"`
-	GoldCredits      *int32                    `protobuf:"varint,12,opt,name=gold_credits" json:"gold_credits,omitempty"`
-	GoldExpiration   *float64                  `protobuf:"fixed64,13,opt,name=gold_expiration" json:"gold_expiration,omitempty"`
-	HideFromRobots   *bool                     `protobuf:"varint,14,opt,name=hide_from_robots" json:"hide_from_robots,omitempty"`
-	Created          *float64                  `protobuf:"fixed64,15,opt,name=created" json:"created,omitempty"`
-	CreatedUtc       *float64                  `protobuf:"fixed64,16,opt,name=created_utc" json:"created_utc,omitempty"`
+	CommentKarma     *int32   `protobuf:"varint,1,opt,name=comment_karma" json:"comment_karma,omitempty"`
+	HasMail          *bool    `protobuf:"varint,2,opt,name=has_mail" json:"has_mail,omitempty"`
+	HasModMail       *bool    `protobuf:"varint,3,opt,name=has_mod_mail" json:"has_mod_mail,omitempty"`
+	HasVerifiedEmail *bool    `protobuf:"varint,4,opt,name=has_verified_email" json:"has_verified_email,omitempty"`
+	InboxCount       *int32   `protobuf:"varint,5,opt,name=inbox_count" json:"inbox_count,omitempty"`
+	IsFriend         *bool    `protobuf:"varint,6,opt,name=is_friend" json:"is_friend,omitempty"`
+	IsGold           *bool    `protobuf:"varint,7,opt,name=is_gold" json:"is_gold,omitempty"`
+	IsMod            *bool    `protobuf:"varint,8,opt,name=is_mod" json:"is_mod,omitempty"`
+	LinkKarma        *int32   `protobuf:"varint,9,opt,name=link_karma" json:"link_karma,omitempty"`
+	Modhash          *string  `protobuf:"bytes,10,opt,name=modhash" json:"modhash,omitempty"`
+	Over_18          *bool    `protobuf:"varint,11,opt,name=over_18" json:"over_18,omitempty"`
+	GoldCredits      *int32   `protobuf:"varint,12,opt,name=gold_credits" json:"gold_credits,omitempty"`
+	GoldExpiration   *float64 `protobuf:"fixed64,13,opt,name=gold_expiration" json:"gold_expiration,omitempty"`
+	HideFromRobots   *bool    `protobuf:"varint,14,opt,name=hide_from_robots" json:"hide_from_robots,omitempty"`
+	// Implements Created
+	Created    *float64 `protobuf:"fixed64,15,opt,name=created" json:"created,omitempty"`
+	CreatedUtc *float64 `protobuf:"fixed64,16,opt,name=created_utc" json:"created_utc,omitempty"`
+	// Implements Thing
 	Id               *string                   `protobuf:"bytes,17,opt,name=id" json:"id,omitempty"`
 	Name             *string                   `protobuf:"bytes,18,opt,name=name" json:"name,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
@@ -402,40 +421,48 @@ func (m *Account) GetName() string {
 	return ""
 }
 
+// Data type t3_
 type Link struct {
-	Author              *string                   `protobuf:"bytes,1,opt,name=author" json:"author,omitempty"`
-	AuthorFlairCssClass *string                   `protobuf:"bytes,2,opt,name=author_flair_css_class" json:"author_flair_css_class,omitempty"`
-	AuthorFlairText     *string                   `protobuf:"bytes,3,opt,name=author_flair_text" json:"author_flair_text,omitempty"`
-	Clicked             *bool                     `protobuf:"varint,4,opt,name=clicked" json:"clicked,omitempty"`
-	Domain              *string                   `protobuf:"bytes,5,opt,name=domain" json:"domain,omitempty"`
-	Hidden              *bool                     `protobuf:"varint,6,opt,name=hidden" json:"hidden,omitempty"`
-	IsSelf              *bool                     `protobuf:"varint,7,opt,name=is_self" json:"is_self,omitempty"`
-	LinkFlairCssClass   *string                   `protobuf:"bytes,8,opt,name=link_flair_css_class" json:"link_flair_css_class,omitempty"`
-	LinkFlairText       *string                   `protobuf:"bytes,9,opt,name=link_flair_text" json:"link_flair_text,omitempty"`
-	NumComments         *int32                    `protobuf:"varint,12,opt,name=num_comments" json:"num_comments,omitempty"`
-	Over_18             *bool                     `protobuf:"varint,13,opt,name=over_18" json:"over_18,omitempty"`
-	Permalink           *string                   `protobuf:"bytes,14,opt,name=permalink" json:"permalink,omitempty"`
-	Saved               *bool                     `protobuf:"varint,15,opt,name=saved" json:"saved,omitempty"`
-	Score               *int32                    `protobuf:"varint,16,opt,name=score" json:"score,omitempty"`
-	Selftext            *string                   `protobuf:"bytes,17,opt,name=selftext" json:"selftext,omitempty"`
-	SelftextHtml        *string                   `protobuf:"bytes,18,opt,name=selftext_html" json:"selftext_html,omitempty"`
-	Subreddit           *string                   `protobuf:"bytes,19,opt,name=subreddit" json:"subreddit,omitempty"`
-	SubredditId         *string                   `protobuf:"bytes,20,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
-	Thumbnail           *string                   `protobuf:"bytes,21,opt,name=thumbnail" json:"thumbnail,omitempty"`
-	Title               *string                   `protobuf:"bytes,22,opt,name=title" json:"title,omitempty"`
-	Url                 *string                   `protobuf:"bytes,23,opt,name=url" json:"url,omitempty"`
-	Distinguished       *string                   `protobuf:"bytes,24,opt,name=distinguished" json:"distinguished,omitempty"`
-	Stickied            *bool                     `protobuf:"varint,25,opt,name=stickied" json:"stickied,omitempty"`
-	Created             *float64                  `protobuf:"fixed64,26,opt,name=created" json:"created,omitempty"`
-	CreatedUtc          *float64                  `protobuf:"fixed64,27,opt,name=created_utc" json:"created_utc,omitempty"`
-	Ups                 *int32                    `protobuf:"varint,28,opt,name=ups" json:"ups,omitempty"`
-	Downs               *int32                    `protobuf:"varint,29,opt,name=downs" json:"downs,omitempty"`
-	Likes               *bool                     `protobuf:"varint,30,opt,name=likes" json:"likes,omitempty"`
-	Id                  *string                   `protobuf:"bytes,31,opt,name=id" json:"id,omitempty"`
-	Name                *string                   `protobuf:"bytes,32,opt,name=name" json:"name,omitempty"`
-	Comments            []*Comment                `protobuf:"bytes,33,rep,name=comments" json:"comments,omitempty"`
-	XXX_extensions      map[int32]proto.Extension `json:"-"`
-	XXX_unrecognized    []byte                    `json:"-"`
+	Author              *string `protobuf:"bytes,1,opt,name=author" json:"author,omitempty"`
+	AuthorFlairCssClass *string `protobuf:"bytes,2,opt,name=author_flair_css_class" json:"author_flair_css_class,omitempty"`
+	AuthorFlairText     *string `protobuf:"bytes,3,opt,name=author_flair_text" json:"author_flair_text,omitempty"`
+	Clicked             *bool   `protobuf:"varint,4,opt,name=clicked" json:"clicked,omitempty"`
+	Domain              *string `protobuf:"bytes,5,opt,name=domain" json:"domain,omitempty"`
+	Hidden              *bool   `protobuf:"varint,6,opt,name=hidden" json:"hidden,omitempty"`
+	IsSelf              *bool   `protobuf:"varint,7,opt,name=is_self" json:"is_self,omitempty"`
+	LinkFlairCssClass   *string `protobuf:"bytes,8,opt,name=link_flair_css_class" json:"link_flair_css_class,omitempty"`
+	LinkFlairText       *string `protobuf:"bytes,9,opt,name=link_flair_text" json:"link_flair_text,omitempty"`
+	// Field 10 is reserved for "media".
+	// Field 11 is reserved for "media_embed".
+	NumComments  *int32  `protobuf:"varint,12,opt,name=num_comments" json:"num_comments,omitempty"`
+	Over_18      *bool   `protobuf:"varint,13,opt,name=over_18" json:"over_18,omitempty"`
+	Permalink    *string `protobuf:"bytes,14,opt,name=permalink" json:"permalink,omitempty"`
+	Saved        *bool   `protobuf:"varint,15,opt,name=saved" json:"saved,omitempty"`
+	Score        *int32  `protobuf:"varint,16,opt,name=score" json:"score,omitempty"`
+	Selftext     *string `protobuf:"bytes,17,opt,name=selftext" json:"selftext,omitempty"`
+	SelftextHtml *string `protobuf:"bytes,18,opt,name=selftext_html" json:"selftext_html,omitempty"`
+	Subreddit    *string `protobuf:"bytes,19,opt,name=subreddit" json:"subreddit,omitempty"`
+	SubredditId  *string `protobuf:"bytes,20,opt,name=subreddit_id" json:"subreddit_id,omitempty"`
+	Thumbnail    *string `protobuf:"bytes,21,opt,name=thumbnail" json:"thumbnail,omitempty"`
+	Title        *string `protobuf:"bytes,22,opt,name=title" json:"title,omitempty"`
+	Url          *string `protobuf:"bytes,23,opt,name=url" json:"url,omitempty"`
+	// Field 24 is reserved for "edited".
+	Distinguished *string `protobuf:"bytes,24,opt,name=distinguished" json:"distinguished,omitempty"`
+	Stickied      *bool   `protobuf:"varint,25,opt,name=stickied" json:"stickied,omitempty"`
+	// Implements Created
+	Created    *float64 `protobuf:"fixed64,26,opt,name=created" json:"created,omitempty"`
+	CreatedUtc *float64 `protobuf:"fixed64,27,opt,name=created_utc" json:"created_utc,omitempty"`
+	// Implements Votable
+	Ups   *int32 `protobuf:"varint,28,opt,name=ups" json:"ups,omitempty"`
+	Downs *int32 `protobuf:"varint,29,opt,name=downs" json:"downs,omitempty"`
+	Likes *bool  `protobuf:"varint,30,opt,name=likes" json:"likes,omitempty"`
+	// Implements Thing
+	Id   *string `protobuf:"bytes,31,opt,name=id" json:"id,omitempty"`
+	Name *string `protobuf:"bytes,32,opt,name=name" json:"name,omitempty"`
+	// Comment tree (not provided by Reddit).
+	Comments         []*Comment                `protobuf:"bytes,33,rep,name=comments" json:"comments,omitempty"`
+	XXX_extensions   map[int32]proto.Extension `json:"-"`
+	XXX_unrecognized []byte                    `json:"-"`
 }
 
 func (m *Link) Reset()         { *m = Link{} }
@@ -673,22 +700,26 @@ func (m *Link) GetComments() []*Comment {
 	return nil
 }
 
+// Data type t4_
 type Message struct {
-	Author           *string                   `protobuf:"bytes,1,opt,name=author" json:"author,omitempty"`
-	Body             *string                   `protobuf:"bytes,2,opt,name=body" json:"body,omitempty"`
-	BodyHtml         *string                   `protobuf:"bytes,3,opt,name=body_html" json:"body_html,omitempty"`
-	Context          *string                   `protobuf:"bytes,4,opt,name=context" json:"context,omitempty"`
-	FirstMessageName *string                   `protobuf:"bytes,6,opt,name=first_message_name" json:"first_message_name,omitempty"`
-	Likes            *bool                     `protobuf:"varint,7,opt,name=likes" json:"likes,omitempty"`
-	LinkTitle        *string                   `protobuf:"bytes,8,opt,name=link_title" json:"link_title,omitempty"`
-	New              *bool                     `protobuf:"varint,9,opt,name=new" json:"new,omitempty"`
-	ParentId         *string                   `protobuf:"bytes,10,opt,name=parent_id" json:"parent_id,omitempty"`
-	Replies          *string                   `protobuf:"bytes,11,opt,name=replies" json:"replies,omitempty"`
-	Subject          *string                   `protobuf:"bytes,12,opt,name=subject" json:"subject,omitempty"`
-	Subreddit        *string                   `protobuf:"bytes,13,opt,name=subreddit" json:"subreddit,omitempty"`
-	WasComment       *bool                     `protobuf:"varint,14,opt,name=was_comment" json:"was_comment,omitempty"`
-	Created          *float64                  `protobuf:"fixed64,15,opt,name=created" json:"created,omitempty"`
-	CreatedUtc       *float64                  `protobuf:"fixed64,16,opt,name=created_utc" json:"created_utc,omitempty"`
+	Author   *string `protobuf:"bytes,1,opt,name=author" json:"author,omitempty"`
+	Body     *string `protobuf:"bytes,2,opt,name=body" json:"body,omitempty"`
+	BodyHtml *string `protobuf:"bytes,3,opt,name=body_html" json:"body_html,omitempty"`
+	Context  *string `protobuf:"bytes,4,opt,name=context" json:"context,omitempty"`
+	// Field 5 reserved for mystic "first_message".
+	FirstMessageName *string `protobuf:"bytes,6,opt,name=first_message_name" json:"first_message_name,omitempty"`
+	Likes            *bool   `protobuf:"varint,7,opt,name=likes" json:"likes,omitempty"`
+	LinkTitle        *string `protobuf:"bytes,8,opt,name=link_title" json:"link_title,omitempty"`
+	New              *bool   `protobuf:"varint,9,opt,name=new" json:"new,omitempty"`
+	ParentId         *string `protobuf:"bytes,10,opt,name=parent_id" json:"parent_id,omitempty"`
+	Replies          *string `protobuf:"bytes,11,opt,name=replies" json:"replies,omitempty"`
+	Subject          *string `protobuf:"bytes,12,opt,name=subject" json:"subject,omitempty"`
+	Subreddit        *string `protobuf:"bytes,13,opt,name=subreddit" json:"subreddit,omitempty"`
+	WasComment       *bool   `protobuf:"varint,14,opt,name=was_comment" json:"was_comment,omitempty"`
+	// Implements Created
+	Created    *float64 `protobuf:"fixed64,15,opt,name=created" json:"created,omitempty"`
+	CreatedUtc *float64 `protobuf:"fixed64,16,opt,name=created_utc" json:"created_utc,omitempty"`
+	// Implements Thing
 	Id               *string                   `protobuf:"bytes,17,opt,name=id" json:"id,omitempty"`
 	Name             *string                   `protobuf:"bytes,18,opt,name=name" json:"name,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
@@ -832,32 +863,35 @@ func (m *Message) GetName() string {
 	return ""
 }
 
+// Data type t5_
 type Subreddit struct {
-	AccountsActive    *int32                    `protobuf:"varint,1,opt,name=accounts_active" json:"accounts_active,omitempty"`
-	CommentScore      *int32                    `protobuf:"varint,2,opt,name=comment_score" json:"comment_score,omitempty"`
-	Description       *string                   `protobuf:"bytes,3,opt,name=description" json:"description,omitempty"`
-	DescriptionHtml   *string                   `protobuf:"bytes,4,opt,name=description_html" json:"description_html,omitempty"`
-	DisplayName       *string                   `protobuf:"bytes,5,opt,name=display_name" json:"display_name,omitempty"`
-	HeaderImg         *string                   `protobuf:"bytes,6,opt,name=header_img" json:"header_img,omitempty"`
-	HeaderTitle       *string                   `protobuf:"bytes,7,opt,name=header_title" json:"header_title,omitempty"`
-	Over18            *bool                     `protobuf:"varint,8,opt,name=over18" json:"over18,omitempty"`
-	PublicDescription *string                   `protobuf:"bytes,9,opt,name=public_description" json:"public_description,omitempty"`
-	PublicTraffic     *bool                     `protobuf:"varint,10,opt,name=public_traffic" json:"public_traffic,omitempty"`
-	Subscribers       *int64                    `protobuf:"varint,11,opt,name=subscribers" json:"subscribers,omitempty"`
-	SubmissionType    *string                   `protobuf:"bytes,12,opt,name=submission_type" json:"submission_type,omitempty"`
-	SubmitLinkLabel   *string                   `protobuf:"bytes,13,opt,name=submit_link_label" json:"submit_link_label,omitempty"`
-	SubmitTextLabel   *string                   `protobuf:"bytes,14,opt,name=submit_text_label" json:"submit_text_label,omitempty"`
-	SubredditType     *string                   `protobuf:"bytes,15,opt,name=subreddit_type" json:"subreddit_type,omitempty"`
-	Title             *string                   `protobuf:"bytes,16,opt,name=title" json:"title,omitempty"`
-	Url               *string                   `protobuf:"bytes,17,opt,name=url" json:"url,omitempty"`
-	UserIsBanned      *bool                     `protobuf:"varint,18,opt,name=user_is_banned" json:"user_is_banned,omitempty"`
-	UserIsContributor *bool                     `protobuf:"varint,19,opt,name=user_is_contributor" json:"user_is_contributor,omitempty"`
-	UserIsModerator   *bool                     `protobuf:"varint,20,opt,name=user_is_moderator" json:"user_is_moderator,omitempty"`
-	UserIsSubscriber  *bool                     `protobuf:"varint,21,opt,name=user_is_subscriber" json:"user_is_subscriber,omitempty"`
-	Id                *string                   `protobuf:"bytes,22,opt,name=id" json:"id,omitempty"`
-	Name              *string                   `protobuf:"bytes,24,opt,name=name" json:"name,omitempty"`
-	XXX_extensions    map[int32]proto.Extension `json:"-"`
-	XXX_unrecognized  []byte                    `json:"-"`
+	AccountsActive  *int32  `protobuf:"varint,1,opt,name=accounts_active" json:"accounts_active,omitempty"`
+	CommentScore    *int32  `protobuf:"varint,2,opt,name=comment_score" json:"comment_score,omitempty"`
+	Description     *string `protobuf:"bytes,3,opt,name=description" json:"description,omitempty"`
+	DescriptionHtml *string `protobuf:"bytes,4,opt,name=description_html" json:"description_html,omitempty"`
+	DisplayName     *string `protobuf:"bytes,5,opt,name=display_name" json:"display_name,omitempty"`
+	HeaderImg       *string `protobuf:"bytes,6,opt,name=header_img" json:"header_img,omitempty"`
+	// Field 7 is reserved for "header_size".
+	HeaderTitle       *string `protobuf:"bytes,7,opt,name=header_title" json:"header_title,omitempty"`
+	Over18            *bool   `protobuf:"varint,8,opt,name=over18" json:"over18,omitempty"`
+	PublicDescription *string `protobuf:"bytes,9,opt,name=public_description" json:"public_description,omitempty"`
+	PublicTraffic     *bool   `protobuf:"varint,10,opt,name=public_traffic" json:"public_traffic,omitempty"`
+	Subscribers       *int64  `protobuf:"varint,11,opt,name=subscribers" json:"subscribers,omitempty"`
+	SubmissionType    *string `protobuf:"bytes,12,opt,name=submission_type" json:"submission_type,omitempty"`
+	SubmitLinkLabel   *string `protobuf:"bytes,13,opt,name=submit_link_label" json:"submit_link_label,omitempty"`
+	SubmitTextLabel   *string `protobuf:"bytes,14,opt,name=submit_text_label" json:"submit_text_label,omitempty"`
+	SubredditType     *string `protobuf:"bytes,15,opt,name=subreddit_type" json:"subreddit_type,omitempty"`
+	Title             *string `protobuf:"bytes,16,opt,name=title" json:"title,omitempty"`
+	Url               *string `protobuf:"bytes,17,opt,name=url" json:"url,omitempty"`
+	UserIsBanned      *bool   `protobuf:"varint,18,opt,name=user_is_banned" json:"user_is_banned,omitempty"`
+	UserIsContributor *bool   `protobuf:"varint,19,opt,name=user_is_contributor" json:"user_is_contributor,omitempty"`
+	UserIsModerator   *bool   `protobuf:"varint,20,opt,name=user_is_moderator" json:"user_is_moderator,omitempty"`
+	UserIsSubscriber  *bool   `protobuf:"varint,21,opt,name=user_is_subscriber" json:"user_is_subscriber,omitempty"`
+	// Implements Thing
+	Id               *string                   `protobuf:"bytes,22,opt,name=id" json:"id,omitempty"`
+	Name             *string                   `protobuf:"bytes,24,opt,name=name" json:"name,omitempty"`
+	XXX_extensions   map[int32]proto.Extension `json:"-"`
+	XXX_unrecognized []byte                    `json:"-"`
 }
 
 func (m *Subreddit) Reset()         { *m = Subreddit{} }
