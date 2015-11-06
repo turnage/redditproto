@@ -261,7 +261,8 @@ func unmarshalMessage(raw json.RawMessage) (*Message, error) {
 
 	return &Message{
 		Author:           buffer.Author,
-		Body:             buffer.BodyHtml,
+		BodyHtml:         buffer.BodyHtml,
+		Body:             buffer.Body,
 		Context:          buffer.Context,
 		FirstMessageName: buffer.FirstMessageName,
 		Likes:            buffer.Likes,
