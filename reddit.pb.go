@@ -720,8 +720,11 @@ type Message struct {
 	Created    *float64 `protobuf:"fixed64,15,opt,name=created" json:"created,omitempty"`
 	CreatedUtc *float64 `protobuf:"fixed64,16,opt,name=created_utc" json:"created_utc,omitempty"`
 	// Implements Thing
-	Id               *string                   `protobuf:"bytes,17,opt,name=id" json:"id,omitempty"`
-	Name             *string                   `protobuf:"bytes,18,opt,name=name" json:"name,omitempty"`
+	Id   *string `protobuf:"bytes,17,opt,name=id" json:"id,omitempty"`
+	Name *string `protobuf:"bytes,18,opt,name=name" json:"name,omitempty"`
+	// This field contains the chronological sequence of messages following this
+	// one.
+	Messages         []*Message                `protobuf:"bytes,19,rep,name=messages" json:"messages,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
 	XXX_unrecognized []byte                    `json:"-"`
 }
@@ -861,6 +864,13 @@ func (m *Message) GetName() string {
 		return *m.Name
 	}
 	return ""
+}
+
+func (m *Message) GetMessages() []*Message {
+	if m != nil {
+		return m.Messages
+	}
+	return nil
 }
 
 // Data type t5_

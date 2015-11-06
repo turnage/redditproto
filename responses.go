@@ -55,3 +55,25 @@ type commentResponse struct {
 	Id                  *string         `json:"id,omitempty"`
 	Name                *string         `json:"name,omitempty"`
 }
+
+// messageResponse represents the JSON message Reddit returns to represent
+// messages.
+type messageResponse struct {
+	Author           *string         `json:"author,omitempty"`
+	Body             *string         `json:"body,omitempty"`
+	BodyHtml         *string         `json:"body_html,omitempty"`
+	Context          *string         `json:"context,omitempty"`
+	FirstMessageName *string         `json:"first_message_name,omitempty"`
+	Likes            *bool           `json:"likes,omitempty"`
+	LinkTitle        *string         `json:"link_title,omitempty"`
+	New              *bool           `json:"new,omitempty"`
+	ParentId         *string         `json:"parent_id,omitempty"`
+	Replies          json.RawMessage `json:"replies,omitempty"`
+	Subject          *string         `json:"subject,omitempty"`
+	Subreddit        *string         `json:"subreddit,omitempty"`
+	WasComment       *bool           `json:"was_comment,omitempty"`
+	Created          *float64        `json:"created,omitempty"`
+	CreatedUtc       *float64        `json:"created_utc,omitempty"`
+	Id               *string         `json:"id,omitempty"`
+	Name             *string         `json:"name,omitempty"`
+}

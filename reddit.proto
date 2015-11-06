@@ -148,6 +148,10 @@ message Message {
   // Implements Thing
   optional string id = 17;
   optional string name = 18;
+
+  // This field contains the chronological sequence of messages following this
+  // one.
+  repeated Message messages = 19;
 }
 
 // Data type t5_

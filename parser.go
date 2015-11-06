@@ -182,7 +182,7 @@ func unmarshalComment(raw json.RawMessage) (*Comment, error) {
 		return nil, err
 	}
 
-	replies, err := unmarshalReplyTree(buffer.Replies)
+	replies, _, err := unmarshalReplyTree(buffer.Replies)
 
 	return &Comment{
 		ApprovedBy:          buffer.ApprovedBy,
@@ -214,25 +214,27 @@ func unmarshalComment(raw json.RawMessage) (*Comment, error) {
 // unmarshalReplyTree unmarshals the reply field of comments. Sometimes this
 // field is a listing, sometimes it is a string. This function handles whatever
 // it happens to be and returns a slice of the replies.
-func unmarshalReplyTree(raw json.RawMessage) ([]*Comment, error) {
+func unmarshalReplyTree(raw json.RawMessage) ([]*Comment, []*Message, error) {
 	repliesThing, err := unmarshalThing(raw)
 	if err != nil {
 		// When a supply tree is not included, the field is a string,
 		// which the JSON unmarshaller chokes on.
-		return nil, nil
+		return nil, nil, nil
 	}
 
 	bufferInterface, err := parseThing(repliesThing)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	buffer, ok := bufferInterface.(*listingBuffer)
 	if !ok {
-		return nil, fmt.Errorf("listing buffer corrupted or mislabeled")
+		return nil,
+			nil,
+			fmt.Errorf("listing buffer corrupted or mislabeled")
 	}
 
-	return buffer.comments, nil
+	return buffer.comments, buffer.messages, nil
 }
 
 // unmarshalLink unmarshals a JSON message into a Link protobuffer.
@@ -247,10 +249,32 @@ func unmarshalLink(raw json.RawMessage) (*Link, error) {
 
 // unmarshalMessage unmarshals a JSON message into a Message protobuffer.
 func unmarshalMessage(raw json.RawMessage) (*Message, error) {
-	message := &Message{}
-	if err := json.Unmarshal(raw, message); err != nil {
+	buffer := &messageResponse{}
+	if err := json.Unmarshal(raw, buffer); err != nil {
 		return nil, err
 	}
 
-	return message, nil
+	_, replies, err := unmarshalReplyTree(buffer.Replies)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Message{
+		Author:           buffer.Author,
+		Body:             buffer.BodyHtml,
+		Context:          buffer.Context,
+		FirstMessageName: buffer.FirstMessageName,
+		Likes:            buffer.Likes,
+		LinkTitle:        buffer.LinkTitle,
+		New:              buffer.New,
+		ParentId:         buffer.ParentId,
+		Subject:          buffer.Subject,
+		Subreddit:        buffer.Subreddit,
+		WasComment:       buffer.WasComment,
+		Created:          buffer.Created,
+		CreatedUtc:       buffer.CreatedUtc,
+		Id:               buffer.Id,
+		Name:             buffer.Name,
+		Messages:         replies,
+	}, nil
 }
