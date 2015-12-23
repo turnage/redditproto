@@ -13,6 +13,7 @@ It has these top-level messages:
 	Comment
 	Account
 	Link
+	LinkSet
 	Message
 	Subreddit
 	UserAgent
@@ -700,6 +701,46 @@ func (m *Link) GetComments() []*Comment {
 	return nil
 }
 
+// LinkSet holds links and data set annotations.
+type LinkSet struct {
+	Links            []*Link                   `protobuf:"bytes,1,rep,name=links" json:"links,omitempty"`
+	Data             *string                   `protobuf:"bytes,2,opt,name=data" json:"data,omitempty"`
+	XXX_extensions   map[int32]proto.Extension `json:"-"`
+	XXX_unrecognized []byte                    `json:"-"`
+}
+
+func (m *LinkSet) Reset()         { *m = LinkSet{} }
+func (m *LinkSet) String() string { return proto.CompactTextString(m) }
+func (*LinkSet) ProtoMessage()    {}
+
+var extRange_LinkSet = []proto.ExtensionRange{
+	{100, 536870911},
+}
+
+func (*LinkSet) ExtensionRangeArray() []proto.ExtensionRange {
+	return extRange_LinkSet
+}
+func (m *LinkSet) ExtensionMap() map[int32]proto.Extension {
+	if m.XXX_extensions == nil {
+		m.XXX_extensions = make(map[int32]proto.Extension)
+	}
+	return m.XXX_extensions
+}
+
+func (m *LinkSet) GetLinks() []*Link {
+	if m != nil {
+		return m.Links
+	}
+	return nil
+}
+
+func (m *LinkSet) GetData() string {
+	if m != nil && m.Data != nil {
+		return *m.Data
+	}
+	return ""
+}
+
 // Data type t4_
 type Message struct {
 	Author   *string `protobuf:"bytes,1,opt,name=author" json:"author,omitempty"`
@@ -1081,4 +1122,13 @@ func (m *Subreddit) GetName() string {
 		return *m.Name
 	}
 	return ""
+}
+
+func init() {
+	proto.RegisterType((*Comment)(nil), "redditproto.Comment")
+	proto.RegisterType((*Account)(nil), "redditproto.Account")
+	proto.RegisterType((*Link)(nil), "redditproto.Link")
+	proto.RegisterType((*LinkSet)(nil), "redditproto.LinkSet")
+	proto.RegisterType((*Message)(nil), "redditproto.Message")
+	proto.RegisterType((*Subreddit)(nil), "redditproto.Subreddit")
 }

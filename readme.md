@@ -26,6 +26,7 @@ message changes will be noted here in the readme.
 * 0.9.0 -> August 25th, 2015
 * 1.0.0 -> October 21st, 2015
 * 2.0.0 -> Octover 29th, 2015 (No message changes; improve Go utilities).
+* 2.1.0 -> December 22nd, 2015 (Added LinkSet message)
 
 # Gophers
 

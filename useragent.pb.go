@@ -62,3 +62,7 @@ func (m *UserAgent) GetPassword() string {
 	}
 	return ""
 }
+
+func init() {
+	proto.RegisterType((*UserAgent)(nil), "redditproto.UserAgent")
+}
